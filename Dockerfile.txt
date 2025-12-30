@@ -1,16 +1,15 @@
-FROM alpine:latest
+FROM alpine:3.18
+
+ARG PB_VERSION=0.22.13
 
 RUN apk add --no-cache curl unzip
 
-WORKDIR /app
+RUN curl -L -o pb.zip https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip \
+    && unzip pb.zip \
+    && rm pb.zip
 
-COPY pocketbase /app/pocketbase
-COPY start.sh /app/start.sh
-COPY pb_schema.json /app/pb_schema.json
-
-RUN chmod +x /app/pocketbase
-RUN chmod +x /app/start.sh
+RUN mkdir /pb_data
 
 EXPOSE 8090
 
-CMD ["./start.sh"]
+CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--dir", "/pb_data"]
