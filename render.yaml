@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: pocketbase-service
+    env: docker
+    branch: main
+    plan: free
+    dockerfilePath: ./Dockerfile

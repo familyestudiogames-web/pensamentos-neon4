@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+RUN apk add --no-cache curl unzip
+
+WORKDIR /app
+
+COPY pocketbase /app/pocketbase
+COPY start.sh /app/start.sh
+COPY pb_schema.json /app/pb_schema.json
+
+RUN chmod +x /app/pocketbase
+RUN chmod +x /app/start.sh
+
+EXPOSE 8090
+
+CMD ["./start.sh"]
